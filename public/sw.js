@@ -3,13 +3,13 @@ self.addEventListener('push', function (event) {
     const data = event.data.json()
     const options = {
       body: data.body,
-      icon: data.icon || '/icon-192x192.png',
-      badge: '/badge.png',
+      icon: '/apple-touch-icon.png',
+      badge: '/apple-touch-icon.png',
       vibrate: [100, 50, 100],
       data: {
         dateOfArrival: Date.now(),
         primaryKey: '2',
-        url: data.url,
+        url: data.url || '/',
         sound: data.sound
       },
       actions: [
@@ -19,8 +19,6 @@ self.addEventListener('push', function (event) {
         }
       ]
     }
-    // Try to set sound if supported (limited support)
-    // Note: Browsers often ignore this for web push
     
     event.waitUntil(self.registration.showNotification(data.title, options))
   }
@@ -29,8 +27,33 @@ self.addEventListener('push', function (event) {
 self.addEventListener('notificationclick', function (event) {
   console.log('Notification click received.')
   event.notification.close()
-  const urlToOpen = event.notification.data?.url || 'https://remainder-app.vercel.app'
+  
+  // Default to root if no URL provided or if it's absolute, try to just open root for PWA feel
+  // But let's respect the data url if it's within scope
+  let urlToOpen = event.notification.data?.url || '/'
+  
   event.waitUntil(
-    clients.openWindow(urlToOpen)
+    clients.matchAll({
+      type: 'window',
+      includeUncontrolled: true
+    }).then(function (clientList) {
+      // If we have a client open, focus it
+      for (let i = 0; i < clientList.length; i++) {
+        const client = clientList[i]
+        if (client.url && 'focus' in client) {
+          return client.focus()
+        }
+      }
+      // Otherwise open a new window
+      if (clients.openWindow) {
+        return clients.openWindow(urlToOpen)
+      }
+    })
   )
 })
+
+self.addEventListener('fetch', function(event) {
+  // Pass through for now to allow offline capability check to pass in some browsers
+  // In a real offline-first app, we would handle caching here
+  return;
+});

@@ -9,17 +9,10 @@ import {
   CheckSquare,
   Settings,
   LogOut,
-  Plus,
-  Menu,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/utils/supabase/client'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from '@/components/ui/sheet'
 import { useState, useEffect } from 'react'
 import { Profile } from '@/lib/types'
 
@@ -74,32 +67,13 @@ export function Sidebar() {
   }
 
   return (
-    <>
-      {/* Mobile Sidebar */}
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" className="md:hidden fixed top-4 left-4 z-50">
-            <Menu className="h-6 w-6" />
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="w-64 p-0">
-          <SidebarContent
-            pathname={pathname}
-            profile={profile}
-            onSignOut={handleSignOut}
-          />
-        </SheetContent>
-      </Sheet>
-
-      {/* Desktop Sidebar */}
-      <div className="hidden md:flex h-screen w-64 flex-col border-r bg-background">
-        <SidebarContent
-          pathname={pathname}
-          profile={profile}
-          onSignOut={handleSignOut}
-        />
-      </div>
-    </>
+    <div className="hidden md:flex h-screen w-64 flex-col border-r bg-background">
+      <SidebarContent
+        pathname={pathname}
+        profile={profile}
+        onSignOut={handleSignOut}
+      />
+    </div>
   )
 }
 

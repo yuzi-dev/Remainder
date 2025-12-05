@@ -8,13 +8,20 @@
 // - VAPID_PUBLIC_KEY
 // - VAPID_PRIVATE_KEY
 
+// @ts-ignore
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3'
+// @ts-ignore
 import webpush from 'https://esm.sh/web-push@3.6.7'
 
+// @ts-ignore
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!
+// @ts-ignore
 const supabaseServiceKey = Deno.env.get('SERVICE_ROLE_KEY')!
+// @ts-ignore
 const vapidSubject = Deno.env.get('VAPID_SUBJECT')!
+// @ts-ignore
 const vapidPublicKey = Deno.env.get('VAPID_PUBLIC_KEY')!
+// @ts-ignore
 const vapidPrivateKey = Deno.env.get('VAPID_PRIVATE_KEY')!
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey)
@@ -25,7 +32,8 @@ webpush.setVapidDetails(
   vapidPrivateKey
 )
 
-Deno.serve(async (req) => {
+// @ts-ignore
+Deno.serve(async (req: any) => {
   try {
     const now = new Date().toISOString()
     
@@ -67,8 +75,8 @@ Deno.serve(async (req) => {
              const payload = JSON.stringify({
                title: reminder.title,
                body: `Due: ${new Date(reminder.due_date).toLocaleString()}`,
-               icon: '/icon-192x192.png',
-               url: `https://remainder-app.vercel.app/dashboard`,
+               icon: '/icon.svg',
+               url: `/dashboard`,
                sound: soundUrl
              })
              
@@ -82,7 +90,7 @@ Deno.serve(async (req) => {
              
              results.push({ reminderId: reminder.id, status: 'sent', endpoint: sub.endpoint })
              
-           } catch (err) {
+           } catch (err: any) {
              console.error('Failed to send notification', err)
              if (err.statusCode === 410) {
                // Subscription expired, delete it
@@ -103,7 +111,7 @@ Deno.serve(async (req) => {
     return new Response(JSON.stringify({ success: true, processed: results.length, details: results }), {
       headers: { 'Content-Type': 'application/json' },
     })
-  } catch (error) {
+  } catch (error: any) {
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },

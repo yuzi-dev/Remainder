@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { PushNotificationManager } from '@/components/settings/PushNotificationManager'
 import { SoundSelector } from '@/components/settings/SoundSelector'
 import { ProfileForm } from '@/components/settings/ProfileForm'
+import { SignOutButton } from '@/components/settings/SignOutButton'
 
 export default async function SettingsPage() {
   const profile = await getProfile()
@@ -39,6 +40,8 @@ export default async function SettingsPage() {
           <ProfileForm profile={profile} />
         </CardContent>
       </Card>
+
+      <SignOutButton />
     </div>
   )
 }

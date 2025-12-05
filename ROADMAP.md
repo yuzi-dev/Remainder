@@ -73,13 +73,13 @@
 - [x] **6.1 UI Polish**
     - [x] Add Framer Motion animations (list items, page transitions).
     - [x] Verify Mobile responsiveness.
-- [ ] **6.2 Testing**
-    - [ ] Manual QA of all user flows.
-    - [ ] Verify RLS security (attempt access as wrong user).
-- [ ] **6.3 Deployment**
-    - [ ] Deploy to Vercel.
-    - [ ] Configure Environment Variables on Vercel.
-    - [ ] Verify Production build.
+- [x] **6.2 Testing**
+    - [x] Manual QA of all user flows.
+    - [x] Verify RLS security (attempt access as wrong user).
+- [x] **6.3 Deployment**
+    - [x] Deploy to Vercel.
+    - [x] Configure Environment Variables on Vercel.
+    - [x] Verify Production build.
 
 ---
 **Last Updated:** 2025-12-05
